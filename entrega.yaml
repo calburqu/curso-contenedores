@@ -1,0 +1,107 @@
+apiVersion: v1
+kind: Namespace
+metadata: 
+  name: curso-k8s
+  labels:
+    app: laboratorio02
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mi-aplicacion-web-dp
+  namespace: curso-k8s
+  labels:
+    app: laboratorio02
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: laboratorio02
+  template:
+    metadata:
+      labels:
+        app: laboratorio02
+    spec:
+      containers:
+        - name: laboratorio02
+          image: nginx:alpine
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "1000m"
+              memory: "512Mi"
+          volumeMounts:
+            - name: laboratorio02-storage
+              mountPath: /usr/share/nginx/html/index.html
+              subPath: index.html 
+      volumes:
+        - name: laboratorio02-storage
+          configMap:
+            name: mi-aplicacion-web-cm
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mi-aplicacion-web-svc
+  namespace: curso-k8s
+  labels:
+    app: laboratorio02
+spec:
+  type: ClusterIP
+  selector:
+    app: laboratorio02
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mi-aplicacion-web-ing
+  namespace: curso-k8s
+  labels:
+    app.kubernetes.io/name: laboratorio02
+    app: laboratorio02
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: miapp.local
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: mi-aplicacion-web-svc
+            port:
+              number: 80
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mi-aplicacion-web-cm
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head><title>Laboratorio 02</title></head>
+    <body>
+      <table>    
+        <tr>
+            <td>Nombre Alumno: Cesar Alburquenque</td>
+        </tr>
+        <tr>
+            <td>Fecha: 22 mayo 2026</td>
+        </tr>
+        <tr>
+            <td>Mensaje personalizado: Segundo laboratorio</td>
+        </tr>
+      </table>    
+    </body>
+    </html>
