@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'container'
+        label 'wsl'
     }
     stages{
         stage("Primer paso pipeline") {
@@ -12,6 +12,11 @@ pipeline {
             steps{
                 sh 'node --version'
             }
-        }        
+        }
+        stage("Tercer paso paso pipeline") {
+            steps{
+                sh 'docker ps'
+            }
+        }                
     }
 }
