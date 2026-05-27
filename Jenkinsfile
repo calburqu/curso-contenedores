@@ -30,7 +30,7 @@ pipeline {
                 }
             }
             steps{
-                sh 'node --version'
+                sh 'cat ddd'
             }
         }                        
     }
