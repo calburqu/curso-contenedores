@@ -19,6 +19,7 @@ pipeline {
         stage("Tercer paso paso pipeline") {
             steps{
                 sh 'docker ps'
+                sh 'security -v unlock-keychain -p "kl154676775" ~/Library/Keychains/login.keychain-db'
             }
         }
         stage("Cuarto paso paso pipeline") {
