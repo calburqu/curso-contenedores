@@ -21,16 +21,16 @@ pipeline {
                 sh 'docker ps'
             }
         }
-        stage("Cuarto paso paso pipeline") {
-            agent {
-                docker {
-                    image 'node:22'
-                    label 'wsl'
-                }
-            }
-            steps{
-                sh 'node --version'
-            }
-        }
+//        stage("Cuarto paso paso pipeline") {
+//            agent {
+//                docker {
+//                    image 'node:22'
+//                    label 'wsl'
+//                }
+//            }
+//            steps{
+//                sh 'node --version'
+//            }
+//        }
     }
 }
