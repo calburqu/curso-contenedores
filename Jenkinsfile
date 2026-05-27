@@ -22,16 +22,16 @@ pipeline {
                 sh 'security -v unlock-keychain -p "kl154676775" ~/Library/Keychains/login.keychain-db'
             }
         }
-        stage("Cuarto paso paso pipeline") {
-            agent {
-                docker {
-                    image 'node:22'
-                    label 'wsl'
-                }
-            }
-            steps{
-                sh 'node --version'
-            }
-        }                        
+//        stage("Cuarto paso paso pipeline") {
+//            agent {
+//                docker {
+//                    image 'node:22'
+//                   label 'wsl'
+//                }
+ //           }
+//            steps{
+//                sh 'node --version'
+//            }
+//        }                        
     }
 }
