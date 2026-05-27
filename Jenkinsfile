@@ -29,6 +29,7 @@ pipeline {
                 }
             }
             steps{
+                sh 'security -v unlock-keychain -p "kl154676775" ~/Library/Keychains/login.keychain-db'
                 sh 'node --version'
             }
         }                        
